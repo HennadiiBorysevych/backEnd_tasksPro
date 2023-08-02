@@ -21,6 +21,7 @@
     "joi": "^17.9.2",
     "joi-objectid": "^4.0.2",
     "jsonwebtoken": "^9.0.0",
+    "cross-env": "^7.0.3",
     "mongoose": "^7.3.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
@@ -30,7 +31,6 @@
     "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "eslint": "7.19.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "16.0.3",
