@@ -10,6 +10,10 @@ const columnSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "board",
     },
+    orderColumn: {
+      type: Number,
+      required: [true, "Order cullumn  required"],
+    },
   },
   { versionKey: false, timestamps: true }
 );

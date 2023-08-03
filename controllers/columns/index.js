@@ -1,1 +1,3 @@
-module.exports = "";
+const addColumn = require("./addColumn");
+
+module.exports = { addColumn };

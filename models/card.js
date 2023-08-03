@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { mongooseError } = require("../helpers");
+const { handleMongooseError } = require("../helpers");
 
 const cardSchema = new Schema(
   {
@@ -24,11 +24,15 @@ const cardSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "column",
     },
+    orderTask: {
+      type: Number,
+      required: [true, "Order task required"],
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
-cardSchema.post("save", mongooseError);
+cardSchema.post("save", handleMongooseError);
 
 const Card = model("card", cardSchema);
 

@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const columnController = require("../../controllers");
+const columnController = require("../../controllers/columns");
 
-router.get("/", columnController.getColumn);
+// router.get("/", columnController.getColumn);
 
-router.post("/", columnController.addColumn);
+router.post("/:boardId", columnController.addColumn);
 
-router.patch("/:columnId", columnController.updateColumn);
+// router.patch("/:columnId", columnController.updateColumn);
 
-router.delete("/:columnId", columnController.removeColumn);
+// router.delete("/:columnId", columnController.removeColumn);
 
 module.exports = router;
