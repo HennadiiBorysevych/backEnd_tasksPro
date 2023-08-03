@@ -1,14 +1,12 @@
 const { cloudinary } = require("../../service")
+const { HttpError } = require("../../helpers")
 //const { User } = require("../../models")
 
-const uploadAvatar = async (req, res) => {
+const uploadAvatar = async (req, res, next) => {
     cloudinary.uploader.upload(req.file.path, function (err, result) {
         if (err) {
-            console.log(error);
-            return res.status(500).json({
-                succes: false,
-                message: "Error"
-            })
+            next(HttpError(500, "Error"))
+            console.log(err.message);
         }
         res.status(200).json({
             data: result.url,

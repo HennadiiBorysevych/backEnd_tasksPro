@@ -7,7 +7,7 @@ const { multerUpload } = require("../../middlewares")
 
 //router.patch("/themes", usersController.updateTheme);
 
-router.patch("/avatar", multerUpload.single("image"), usersController.uploadAvatar);
+router.patch("/avatar", multerUpload.single("newAvatar"), usersController.uploadAvatar);
 
 //router.patch("/help", usersController.helpRequest);
 
