@@ -1,0 +1,357 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "TasksProApp API",
+    "description": "TasksProApp API Documentation",
+    "license": {
+      "name": "URL to repository",
+      "url": "https://github.com/HennadiiBorysevych/backEnd_tasksPro"
+    }
+  },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "servers": [
+    {
+      "url": "https://backend-taskspro-public.onrender.com"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "User",
+      "description": "User endpoints"
+    },
+    {
+      "name": "Boards",
+      "description": "User boards endpoints"
+    },
+    {
+      "name": "Columns",
+      "description": "Boards columns endpoints"
+    },
+    {
+      "name": "Cards",
+      "description": "Columns tasks endpoints"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "# Body description queries:\n\n**name** - string, user name.\n\n**email** - string, mail address. \n\n**password** - string, user password. \n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "**New User Registered** \n\n Request body description : \n\n**user** - object, User information. \n\n **code** - status code \n\n **message** - status message\n\n ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error. Provide all required fields",
+            "content": {}
+          },
+          "409": {
+            "description": "Email already in use",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "**Successful operation**\n\nResponce body description:\n\n**code** - status code\n\n**message** - status message.\n\n**token** - string, unique token\n\n**user** - object, Consist: name, email, theme, avatarURL.\n\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error. Provide all required fields",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "description": "**Log out**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user info",
+        "parameters": [],
+        "description": "**Authorization token must be included**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "User's token",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CurrentUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "John Wick"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "johnWick@gmail.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "babaYaga"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Wick"
+              },
+              "email": {
+                "type": "string",
+                "example": "johnWick@gmail.com"
+              }
+            }
+          },
+          "code": {
+            "type": "http",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "example": "Success"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "johnWick@gmail.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "babaYaga"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http"
+          },
+          "message": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVkNjJlNjE4MzgwMzY4NTk0NDZjNCIsImlhdCI6MTY4NzYxMjMzMCwiZXhwIjoxNjg3Njk4NzMwfQ.Exk_soSUARn-t-7FDQKsiFBTutt_vc9ok9UPuTdGqBU"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "example": "example@gmail.com",
+                "format": "email"
+              },
+              "theme": {
+                "type": "string",
+                "description": "User's theme",
+                "example": "dark"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar",
+                "example": "https://cloudinary.com/avatar.jpeg"
+              }
+            }
+          }
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "code": {
+            "type": "http"
+          },
+          "message": {
+            "type": "string"
+          },
+
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "John Wick"
+              },
+              "token": {
+                "type": "string",
+                "description": "User's token",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVkNjJlNjE4MzgwMzY4NTk0NDZjNCIsImlhdCI6MTY4NzYxMjMzMCwiZXhwIjoxNjg3Njk4NzMwfQ.Exk_soSUARn-t-7FDQKsiFBTutt_vc9ok9UPuTdGqBU"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "example": "johnWick@gmail.com",
+                "format": "email"
+              },
+              "theme": {
+                "type": "string",
+                "description": "User's theme",
+                "example": "dark"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar",
+                "example": "https://cloudinary.com/avatar.jpeg"
+              }
+            }
+          }
+        }
+      },
+      "CurrentUserRequest": {
+        "type": "object",
+        "required": ["token"],
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "required": ["token"],
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVkNjJlNjE4MzgwMzY4NTk0NDZjNCIsImlhdCI6MTY4NzYxMjMzMCwiZXhwIjoxNjg3Njk4NzMwfQ.Exk_soSUARn-t-7FDQKsiFBTutt_vc9ok9UPuTdGqBU"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
