@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 
+const { handleMongooseError } = require("../helpers");
+
 const boardSchema = new Schema(
   {
     title: {
@@ -28,9 +30,15 @@ const boardSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 const Board = model("board", boardSchema);
+
+boardSchema.post("save", handleMongooseError);
 
 module.exports = { Board };
