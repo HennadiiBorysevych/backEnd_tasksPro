@@ -10,7 +10,7 @@ const removeBoard = async (req, res) => {
   res.status(200);
   res.json({
     code: 200,
-    message: "Delete success",
+    message: "Board delete success",
   });
 };
 
