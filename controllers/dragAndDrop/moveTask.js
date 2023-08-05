@@ -1,4 +1,4 @@
-const { Card } = require("../../models/card");
+ const { Card } = require("../../models/card");
 const { HttpError } = require("../../helpers");
 
 const moveTask = async (req, res) => {

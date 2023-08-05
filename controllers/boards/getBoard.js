@@ -17,4 +17,5 @@ const getBoard = async (req, res) => {
     qty,
   });
 };
+
 module.exports = getBoard;
