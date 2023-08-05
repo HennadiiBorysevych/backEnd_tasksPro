@@ -10,7 +10,7 @@ const authRouter = require("./routes/api/auth");
 const usersRouter = require("./routes/api/users");
 
 const boardsRouter = require("./routes/api/boards");
-// const columnsRouter = require("./routes/api/columns");
+const columnsRouter = require("./routes/api/columns");
 // const cardsRouter = require("./routes/api/cards");
 
 const app = express();
@@ -27,7 +27,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 
 app.use("/api/boards", boardsRouter);
-// app.use("/api/columns", columnsRouter);
+app.use("/api/columns", columnsRouter);
 // app.use("/api/cards", cardsRouter);
 
 app.use((req, res) => {
