@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const usersController = require("../../controllers");
-const { multerUpload } = require("../../middlewares");
-const { auth } = require("../../middlewares");
+const usersController = require("../../controllers/users");
+const { multerUpload, validateBody, auth } = require("../../middlewares");
+const { themeSchema } = require("../../schemas");
 
-//router.patch("/themes", usersController.updateTheme);
+router.patch(
+  "/themes",
+  auth,
+  validateBody(themeSchema),
+  usersController.updateTheme
+);
 
 router.patch(
   "/avatar",
@@ -13,8 +18,8 @@ router.patch(
   usersController.uploadAvatar
 );
 
-//router.patch("/help", usersController.helpRequest);
+// router.patch("/help", usersController.helpRequest);
 
-//router.patch("/", usersController.updateUser);
+// router.patch("/", usersController.updateUser);
 
 module.exports = router;
