@@ -17,7 +17,6 @@ router.post(
   validateBody(schemas.loginSchema),
   controllerWrapper(authController.loginUser)
 );
-router.get("/current", auth, controllerWrapper(authController.getCurrent));
 
 router.post("/logout", auth, controllerWrapper(authController.logoutUser));
 

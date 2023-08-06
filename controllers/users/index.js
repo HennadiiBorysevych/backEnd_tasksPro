@@ -1,5 +1,7 @@
-const uploadAvatar = require("./uploadAvatar")
+const uploadAvatar = require("./uploadAvatar");
+const currentUser = require("./currentUser");
 
 module.exports = {
-    uploadAvatar,
+  uploadAvatar,
+  currentUser,
 };
