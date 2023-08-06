@@ -20,6 +20,6 @@ router.patch(
 
 // router.patch("/help", usersController.helpRequest);
 
-// router.patch("/", usersController.updateUser);
+router.patch("/", usersController.updateUser);
 
 module.exports = router;
