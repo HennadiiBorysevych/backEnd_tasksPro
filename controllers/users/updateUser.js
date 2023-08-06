@@ -22,7 +22,7 @@ const updateUser = async (req, res, next) => {
     updateFields.password = hashPassword;
   }
 
-  if (req.file && req.file.path) {
+  if (req.file) {
     cloudinary.uploader.upload(req.file.path, async function (err, result) {
       if (err) {
         next(HttpError(500, "Error"));
