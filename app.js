@@ -11,7 +11,7 @@ const usersRouter = require("./routes/api/users");
 
 const boardsRouter = require("./routes/api/boards");
 const columnsRouter = require("./routes/api/columns");
-// const cardsRouter = require("./routes/api/cards");
+const cardsRouter = require("./routes/api/cards");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -28,7 +28,7 @@ app.use("/api/users", usersRouter);
 
 app.use("/api/boards", boardsRouter);
 app.use("/api/columns", columnsRouter);
-// app.use("/api/cards", cardsRouter);
+app.use("/api/cards", cardsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not Found" });
