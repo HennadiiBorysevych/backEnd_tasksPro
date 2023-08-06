@@ -29,10 +29,13 @@ const boardSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
   },
   { versionKey: false, timestamps: true }
 );
-
 boardSchema.post("save", handleMongooseError);
 
 const Board = model("board", boardSchema);

@@ -22,7 +22,12 @@ const cardSchema = new Schema(
     },
     cardOwner: {
       type: Schema.Types.ObjectId,
-      ref: "column",
+      ref: "card",
+      required: [true, "Task must contain a properly filled <cardOwner> field"],
+    },
+    orderTask: {
+      type: Number,
+      required: [true, "Task must contain a properly filled <orderTask> field"],
     },
     orderTask: {
       type: Number,

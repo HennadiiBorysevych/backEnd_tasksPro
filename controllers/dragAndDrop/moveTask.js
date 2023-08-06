@@ -1,4 +1,4 @@
- const { Card } = require("../../models/card");
+const { Card } = require("../../models/card");
 const { HttpError } = require("../../helpers");
 
 const moveTask = async (req, res) => {
@@ -9,7 +9,14 @@ const moveTask = async (req, res) => {
   }
 
   for (const item of data) {
-    await Card.updateOne({ _id: item.id }, { $set: { orderTask: item.order } });
+    const result = await Card.updateOne(
+      { _id: item.id },
+      { $set: { orderTask: item.order } }
+    );
+
+    if (!result) {
+      throw HttpError(500, "error move task");
+    }
   }
 
   res.status(200);

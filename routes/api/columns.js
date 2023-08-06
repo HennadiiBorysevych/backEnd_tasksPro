@@ -1,13 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const columnController = require("../../controllers/columns");
 
-// router.get("/", columnController.getColumn);
+const {
+  addColumn,
+  getColumnById,
+  removeColumn,
+  updateColumn,
+} = require("../../controllers/columns");
+const { auth, validateBody, isValidId } = require("../../middlewares");
+const { createColumnSchema, updateColumnSchema } = require("../../schemas");
+const { controllerWrapper } = require("../../helpers");
 
-router.post("/:boardId", columnController.addColumn);
+router.get("/:id", auth, isValidId, controllerWrapper(getColumnById));
 
-// router.patch("/:columnId", columnController.updateColumn);
+router.post(
+  "/",
+  auth,
+  validateBody(createColumnSchema),
+  controllerWrapper(addColumn)
+);
 
-// router.delete("/:columnId", columnController.removeColumn);
+router.patch(
+  "/:id",
+  auth,
+  isValidId,
+  validateBody(updateColumnSchema),
+  controllerWrapper(updateColumn)
+);
+
+router.delete("/:id", auth, isValidId, controllerWrapper(removeColumn));
 
 module.exports = router;

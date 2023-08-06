@@ -8,10 +8,14 @@ const moveColumn = async (req, res) => {
   }
 
   for (const item of data) {
-    await Column.updateOne(
+    const result = await Column.updateOne(
       { _id: item.id },
       { $set: { orderColumn: item.order } }
     );
+
+    if (!result) {
+      throw HttpError(500, "error move column");
+    }
   }
 
   res.status(200);

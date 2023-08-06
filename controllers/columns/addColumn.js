@@ -1,15 +1,12 @@
-const { Column } = require("../../models/column");
+const { Column } = require("../../models");
 
 const addColumn = async (req, res) => {
-  const { boardId } = req.params;
-
-  const result = await Column.create({ ...req.body, columnOwner: boardId });
-
+  const newColumn = await Column.create({ ...req.body });
   res.status(201);
   res.json({
     code: 201,
     message: "Success",
-    data: result,
+    result: newColumn,
   });
 };
 

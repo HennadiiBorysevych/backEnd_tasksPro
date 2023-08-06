@@ -33,10 +33,9 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
+userSchema.post("save", handleMongooseError);
 
 const User = model("user", userSchema);
-
-userSchema.post("save", handleMongooseError);
 
 const registerSchema = Joi.object({
   name: Joi.string().min(2).required(),

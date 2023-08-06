@@ -1,15 +1,12 @@
-const { Card } = require("../../models/card");
+const { Card } = require("../../models");
 
 const addCard = async (req, res) => {
-  const { columnId } = req.params;
-
-  const result = await Card.create({ ...req.body, cardOwner: columnId });
-
+  const newCard = await Card.create({ ...req.body });
   res.status(201);
   res.json({
     code: 201,
     message: "Success",
-    data: result,
+    result: newCard,
   });
 };
 

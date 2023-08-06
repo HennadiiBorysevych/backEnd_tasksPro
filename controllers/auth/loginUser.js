@@ -9,7 +9,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw HttpError(401, "Error. Provide all required fields");
+    throw HttpError(400, "Error. Provide all required fields");
   }
   const user = await User.findOne({ email });
 
