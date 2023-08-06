@@ -12,20 +12,13 @@ router.patch(
   usersController.updateTheme
 );
 
-// router.patch(
-//   "/avatar",
-//   auth,
-//   multerUpload.single("newAvatar"),
-//   usersController.uploadAvatar
-// );
-
 // router.patch("/help", usersController.helpRequest);
 
 router.patch(
   "/",
   auth,
-  //validateBody(schemas.updateSchema),
   multerUpload.single("newAvatar"),
+  validateBody(schemas.updateSchema),
   usersController.updateUser);
 
 module.exports = router;
