@@ -14,18 +14,18 @@ router.patch(
 
 router.patch(
   "/avatar",
-  //auth,
+  auth,
   multerUpload.single("newAvatar"),
   usersController.uploadAvatar
 );
 
 // router.patch("/help", usersController.helpRequest);
 
-router.patch(
-  "/",
- // auth,
- // validateBody(schemas.updateSchema),
-  multerUpload.single("newAvatar"),
-  usersController.updateUser);
+// router.patch(
+//   "/",
+//   auth,
+//  // validateBody(schemas.updateSchema),
+//   multerUpload.single("newAvatar"),
+//   usersController.updateUser);
 
 module.exports = router;

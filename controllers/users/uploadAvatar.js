@@ -9,8 +9,8 @@ const uploadAvatar = async (req, res, next) => {
             console.log(err.message);
         } else {
 
-         //   const { _id } = req.user;
-const  _id  = "64cf97852829b57a75fc6cba";
+            const { _id } = req.user;
+
        try {
             const updatedUser = await User.findByIdAndUpdate(
                 _id,
@@ -30,4 +30,5 @@ const  _id  = "64cf97852829b57a75fc6cba";
             }
         });
         }
+
 module.exports = uploadAvatar;
