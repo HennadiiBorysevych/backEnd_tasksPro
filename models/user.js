@@ -57,7 +57,7 @@ const updateSchema = Joi.object({
 const schemas = {
   registerSchema,
   loginSchema,
-  updateSchema
+  updateSchema,
 };
 
 module.exports = {

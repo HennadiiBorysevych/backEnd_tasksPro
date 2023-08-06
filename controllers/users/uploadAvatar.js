@@ -30,5 +30,4 @@ const  _id  = "64cf97852829b57a75fc6cba";
             }
         });
         }
-
 module.exports = uploadAvatar;
