@@ -9,11 +9,7 @@ const logoutUser = async (req, res) => {
   if (!user) {
     throw HttpError(401, "Not authorized");
   }
-  res.status(401);
-  res.json({
-    code: 401,
-    message: "Unauthorized",
-  });
+  res.status(204);
 };
 
 module.exports = logoutUser;
