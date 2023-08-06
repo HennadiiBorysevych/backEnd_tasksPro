@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-
 const { handleMongooseError } = require("../helpers");
 
 const boardSchema = new Schema(

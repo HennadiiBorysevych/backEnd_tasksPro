@@ -10,6 +10,21 @@ const columnSchema = new Schema(
     columnOwner: {
       type: Schema.Types.ObjectId,
       ref: "board",
+      required: [
+        true,
+        "Сolumn must contain a properly filled <columnOwner> field",
+      ],
+    },
+    orderColumn: {
+      type: Number,
+      required: [
+        true,
+        "Сolumn must contain a properly filled <orderColumn> field",
+      ],
+    },
+    orderColumn: {
+      type: Number,
+      required: [true, "Order cullumn  required"],
     },
   },
   { versionKey: false, timestamps: true }
