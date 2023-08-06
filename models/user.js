@@ -48,9 +48,16 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const updateSchema = Joi.object({
+  name: Joi.string().min(2),
+  email: Joi.string().pattern(emailRegexp),
+  password: Joi.string().min(6),
+});
+
 const schemas = {
   registerSchema,
   loginSchema,
+  updateSchema
 };
 
 module.exports = {
