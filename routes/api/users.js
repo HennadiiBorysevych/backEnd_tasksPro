@@ -14,11 +14,14 @@ router.patch(
 
 // router.patch("/help", usersController.helpRequest);
 
+router.get("/current", auth, usersController.currentUser);
+
 router.patch(
   "/",
   auth,
   multerUpload.single("newAvatar"),
   validateBody(schemas.updateSchema),
-  usersController.updateUser);
+  usersController.updateUser
+);
 
 module.exports = router;
