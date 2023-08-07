@@ -47,7 +47,7 @@ const updateUser = async (req, res, next) => {
         return next(HttpError(404, "User not found"));
       }
 
-      const { name, email, theme, avatarURL } = updateUser;
+      const { name, email, theme, avatarURL } = updatedUser;
       res.status(200).json({
         message: "Update success",
         user: { name, email, theme, avatarURL },
