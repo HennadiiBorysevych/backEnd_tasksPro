@@ -3,6 +3,7 @@ const { createColumnSchema, updateColumnSchema } = require("./column");
 const { createCardSchema, updateCardSchema } = require("./card.js");
 const draAndDropSchema = require("./dragAndDrop");
 const themeSchema = require("./theme");
+const helpRequestSchema = require("./helpRequest");
 
 module.exports = {
   createBoardSchema,
@@ -13,4 +14,5 @@ module.exports = {
   updateCardSchema,
   draAndDropSchema,
   themeSchema,
+  helpRequestSchema,
 };
