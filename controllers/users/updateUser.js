@@ -23,15 +23,18 @@ const updateUser = async (req, res, next) => {
     updateFields.password = hashPassword;
   }
   if (req.file && req.file.path) {
-    await cloudinary.uploader.upload(req.file.path, async function (err, result) {
-      if (err) {
-        next(HttpError(500, "Error"));
-        console.log(err.message);
-      } else {
-        updateFields.avatarURL = result.url;
-        await fs.unlink(req.file.path);
+    await cloudinary.uploader.upload(
+      req.file.path,
+      async function (err, result) {
+        if (err) {
+          next(HttpError(500, "Error"));
+          console.log(err.message);
+        } else {
+          updateFields.avatarURL = result.url;
+          await fs.unlink(req.file.path);
+        }
       }
-    });
+    );
   }
   updateUserData();
   async function updateUserData() {
@@ -44,7 +47,11 @@ const updateUser = async (req, res, next) => {
         return next(HttpError(404, "User not found"));
       }
 
-      res.status(200).json({ message: "Update success" });
+      const { name, email, theme, avatarURL } = updateUser;
+      res.status(200).json({
+        message: "Update success",
+        user: { name, email, theme, avatarURL },
+      });
     } catch (err) {
       next(HttpError(500, "Error updating user"));
       console.log(err.message);
