@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const fs = require("fs/promises");
 
 const { cloudinary } = require("../../service")
 const { HttpError } = require("../../helpers")
@@ -19,12 +20,13 @@ const updateUser = async (req, res, next) => {
   }
     
   if (req.file && req.file.path) {
-    cloudinary.uploader.upload(req.file.path, async function (err, result) {
+    await cloudinary.uploader.upload(req.file.path, async function (err, result) {
       if (err) {
         next(HttpError(500, "Error"));
         console.log(err.message);
       } else {
         updateFields.avatarURL = result.url;
+        await fs.unlink(req.file.path);
       }
     });
   }
