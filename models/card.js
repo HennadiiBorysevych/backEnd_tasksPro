@@ -27,10 +27,6 @@ const cardSchema = new Schema(
     },
     orderTask: {
       type: Number,
-      required: [true, "Task must contain a properly filled <orderTask> field"],
-    },
-    orderTask: {
-      type: Number,
       required: [true, "Order task required"],
     },
   },
