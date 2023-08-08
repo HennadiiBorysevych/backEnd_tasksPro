@@ -2,6 +2,9 @@ const Joi = require("joi");
 
 const createCardSchema = Joi.object({
   title: Joi.string().required(),
+  description: Joi.string(),
+  priority: Joi.string().valid("Without", "Low", "Medium", "High"),
+  deadline: Joi.string(),
   cardOwner: Joi.string().required(),
   orderTask: Joi.number().required(),
 });
