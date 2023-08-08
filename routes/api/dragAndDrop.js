@@ -5,21 +5,21 @@ const { validateBody, auth } = require("../../middlewares");
 const { draAndDropSchema } = require("../../schemas");
 
 router.put(
-  "/moveColumn",
+  "/movecolumn",
   auth,
   validateBody(draAndDropSchema.columnAndTaskSchema),
   draAndDropController.moveColumn
 );
 
 router.put(
-  "/moveTask",
+  "/movetask",
   auth,
   validateBody(draAndDropSchema.columnAndTaskSchema),
   draAndDropController.moveTask
 );
 
 router.put(
-  "/moveTasktoColumn",
+  "/movetasktocolumn",
   auth,
   validateBody(draAndDropSchema.taskToColumnSchema),
   draAndDropController.moveTaskToColumn
