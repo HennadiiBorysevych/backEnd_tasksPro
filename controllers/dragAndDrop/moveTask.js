@@ -7,12 +7,16 @@ const moveTask = async (req, res) => {
   if (!data) {
     throw HttpError(400, "Not body");
   }
+  const dataNew = [];
 
   for (const item of data) {
-    const result = await Card.updateOne(
+    const result = await Card.findByIdAndUpdate(
       { _id: item.id },
-      { $set: { orderTask: item.order } }
+      { $set: { orderTask: item.order } },
+      { new: true }
     );
+
+    dataNew.push({ id: result.id, order: result.orderTask });
 
     if (!result) {
       throw HttpError(500, "error move task");
@@ -23,6 +27,7 @@ const moveTask = async (req, res) => {
   res.json({
     code: 200,
     message: "Update position task ",
+    data: dataNew,
   });
 };
 
