@@ -10,6 +10,7 @@ const logoutUser = async (req, res) => {
     throw HttpError(401, "Not authorized");
   }
   res.status(204);
+  res.json();
 };
 
 module.exports = logoutUser;
