@@ -34,22 +34,29 @@ const moveTaskToColumn = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Not found");
   }
+  const responseTask = [];
 
   for (const item of dataOld) {
-    const res = await Card.updateOne(
+    const res = await Card.findByIdAndUpdate(
       { _id: item.id },
-      { $set: { orderTask: item.order } }
+      { $set: { orderTask: item.order } },
+      { new: true }
     );
+
+    responseTask.push(res);
+
     if (!res) {
       throw HttpError(500, "error move task");
     }
   }
 
   for (const item of dataNew) {
-    const res = await Card.updateOne(
+    const res = await Card.findByIdAndUpdate(
       { _id: item.id },
-      { $set: { orderTask: item.order } }
+      { $set: { orderTask: item.order } },
+      { new: true }
     );
+    responseTask.push(res);
     if (!res) {
       throw HttpError(500, "error move task");
     }
@@ -59,7 +66,7 @@ const moveTaskToColumn = async (req, res) => {
   res.json({
     code: 200,
     message: "Update task to column ",
-    data: result,
+    data: responseTask,
   });
 };
 
