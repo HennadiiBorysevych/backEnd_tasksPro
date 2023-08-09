@@ -22,6 +22,10 @@
       "description": "Authorization endpoints"
     },
     {
+      "name": "DragAndDrop",
+      "description": "DragAndDrop endpoints"
+    },
+    {
       "name": "User",
       "description": "User endpoints"
     },
@@ -142,9 +146,226 @@
         }
       }
     },
-    "/api/auth/current": {
+
+    "/api/drag/moveColumn": {
+      "put": {
+        "tags": ["DragAndDrop"],
+        "summary": "Move column",
+        "parameters": [],
+        "description": "**Changing the position of column**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Column's id and position",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DragAndDrop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not Body",
+            "content": {}
+          },
+          "500": {
+            "description": "Error move column",
+            "content": {}
+          },
+          "200": {
+            "description": "Error move column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DragAndDropResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/drag/moveTask": {
+      "put": {
+        "tags": ["DragAndDrop"],
+        "summary": "Move task",
+        "parameters": [],
+        "description": "**Changing the position of task**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Column's id and position",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DragAndDrop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not Body",
+            "content": {}
+          },
+          "500": {
+            "description": "Error move task",
+            "content": {}
+          },
+          "200": {
+            "description": "Error move column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DragAndDropResponseTask"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/drag/moveTaskToColumn": {
+      "put": {
+        "tags": ["DragAndDrop"],
+        "summary": "Move task to another column",
+        "parameters": [],
+        "description": "**Changing the position of task to another column**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "ids of Column, Task",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveTasktoColumn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not idTask or not idColumnNew or not dataOld or not dataNew",
+            "content": {}
+          },
+          "404": {
+            "description": "Task not found, column not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Error move task",
+            "content": {}
+          },
+          "200": {
+            "description": "Error move column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DragAndDropResponseTask"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/themes": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "",
+        "parameters": [],
+        "description": "**Changing user's theme**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "New Theme",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThemeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not Found",
+            "content": {}
+          },
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/help": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "",
+        "parameters": [],
+        "description": "**Sending request for assistance**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Comment and email",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HelpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Error. Email required or Error. Comment required",
+            "content": {}
+          },
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelpResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/current": {
       "get": {
-        "tags": ["Auth"],
+        "tags": ["User"],
         "summary": "Get current user info",
         "parameters": [],
         "description": "**Authorization token must be included**",
@@ -177,6 +398,442 @@
           },
           "401": {
             "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update current user info",
+        "parameters": [],
+        "description": "**Authorization token must be included**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "New avatar or or new password, email",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "500": {
+            "description": "Error updating user",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/boards": {
+      "get": {
+        "tags": ["Boards"],
+        "summary": "Get all board",
+        "parameters": [],
+        "description": "**Boards**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "User's id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Id"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards/:id": {
+      "get": {
+        "tags": ["Boards"],
+        "summary": "Get board",
+        "parameters": [],
+        "description": "**Board**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Board id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/boards": {
+      "post": {
+        "tags": ["Boards"],
+        "summary": "Get board",
+        "parameters": [],
+        "description": "**Board**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Board id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBoard"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards:/id": {
+      "patch": {
+        "tags": ["Boards"],
+        "summary": "Update board",
+        "parameters": [],
+        "description": "**Board**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Board id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBoard"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/boards:/id": {
+      "delete": {
+        "tags": ["Boards"],
+        "summary": "Delete board",
+        "parameters": [],
+        "description": "**Board**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Board id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedBoard"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/columns/:id": {
+      "get": {
+        "tags": ["Columns"],
+        "summary": "Column id",
+        "parameters": [],
+        "description": "**Columns**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Columns id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetColumn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ColumnResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/columns": {
+      "post": {
+        "tags": ["Columns"],
+        "summary": "Column id",
+        "parameters": [],
+        "description": "**Columns**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Columns id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewColumnResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewColumnResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/columns/:id": {
+      "patch": {
+        "tags": ["Columns"],
+        "summary": "Column id",
+        "parameters": [],
+        "description": "**Columns**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Columns id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewColumnResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/columns/:id": {
+      "delete": {
+        "tags": ["Columns"],
+        "summary": "Column id",
+        "parameters": [],
+        "description": "**Columns**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Columns id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletedColumn"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/api/cards": {
+      "get": {
+        "tags": ["Cards"],
+        "summary": "Get all cards of column",
+        "parameters": [],
+        "description": "**Cards**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Columns id",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
             "content": {}
           }
         }
@@ -225,7 +882,7 @@
           },
           "code": {
             "type": "http",
-            "example": "200"
+            "example": "201"
           },
           "message": {
             "type": "string",
@@ -342,6 +999,407 @@
             "description": "User's token",
             "required": ["token"],
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVkNjJlNjE4MzgwMzY4NTk0NDZjNCIsImlhdCI6MTY4NzYxMjMzMCwiZXhwIjoxNjg3Njk4NzMwfQ.Exk_soSUARn-t-7FDQKsiFBTutt_vc9ok9UPuTdGqBU"
+          }
+        }
+      },
+      "DragAndDrop": {
+        "type": "object",
+        "required": ["id", "order"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Column id",
+            "required": ["id"],
+            "example": "64cb8603ccecc89b385e073f"
+          },
+          "order": {
+            "type": "string",
+            "description": "Column order(from left to right)",
+            "required": ["order"],
+            "example": "2"
+          }
+        }
+      },
+      "DragAndDropResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "New column position",
+            "example": "Update position column"
+          }
+        }
+      },
+      "DragAndDropResponseTask": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Update position task ",
+            "example": "Update position task "
+          }
+        }
+      },
+      "MoveTasktoColumn": {
+        "type": "object",
+        "properties": {
+          "idTask": {
+            "type": "string",
+            "description": "Task id",
+            "example": "64cb959c72ea7093c67658a2"
+          },
+          "idColumnNew": {
+            "type": "string",
+            "description": "Id of new Column",
+            "example": "64cb87380bd2f83e83f216b9"
+          },
+          "dataOld": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Task id",
+                "example": "64cb8603ccecc89b385e073f"
+              },
+              "order": {
+                "type": "http",
+                "description": "Task order",
+                "example": "6"
+              }
+            }
+          },
+          "dataNew": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Task id",
+                "example": "64cb8603ccecc89b385e073f"
+              },
+              "order": {
+                "type": "http",
+                "description": "Task order",
+                "example": "6"
+              }
+            }
+          }
+        }
+      },
+      "ThemeRequest": {
+        "type": "object",
+        "properties": {
+          "theme": {
+            "type": "string",
+            "description": "theme",
+            "example": "violet"
+          }
+        }
+      },
+      "HelpRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "description": "Issue",
+            "example": "theme is not working"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "johnWick@gmail.com"
+          }
+        }
+      },
+      "HelpResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Send Email",
+            "example": "johnWick@gmail.com"
+          }
+        }
+      },
+      "UserUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "New name",
+            "example": "John Wick"
+          },
+          "email": {
+            "type": "string",
+            "description": "New email",
+            "example": "johnWick@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "New password",
+            "example": "123456"
+          }
+        }
+      },
+      "UpdateUserResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Updated user",
+            "example": "Update success"
+          },
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "New name",
+              "example": "John Wick"
+            },
+            "email": {
+              "type": "string",
+              "description": "New email",
+              "example": "johnWick@gmail.com"
+            },
+            "theme": {
+              "type": "string",
+              "description": "theme",
+              "example": "violet"
+            },
+            "avatarURL": {
+              "type": "string",
+              "description": "New avatar",
+              "example": ""
+            }
+          }
+        }
+      },
+      "Id": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User id",
+            "example": "64cb8603ccecc89b385e073f"
+          }
+        }
+      },
+      "BoardId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User id",
+            "example": "64cb8603ccecc89b385e073f"
+          }
+        }
+      },
+      "BoardResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "board": {
+            "type": "string",
+            "description": "Board id",
+            "example": "64cb8603ccecc89b385e073f"
+          },
+          "column": {
+            "type": "string",
+            "description": "Column id",
+            "example": "64cb8603ccecc89b385e073f"
+          },
+          "cards": {
+            "type": "string",
+            "description": "cards id",
+            "example": "64cb8603ccecc89b385e073f"
+          }
+        }
+      },
+      "AddBoard": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "201"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "newBoard": {
+            "type": "object",
+            "description": "New Board",
+            "example": "{}"
+          }
+        }
+      },
+      "UpdateBoard": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "201"
+          },
+          "result": {
+            "type": "object",
+            "description": "New Board",
+            "example": "{}"
+          }
+        }
+      },
+      "DeletedBoard": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "201"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Board delete success"
+          }
+        }
+      },
+      "DeletedColumn": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "201"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Column delete success"
+          }
+        }
+      },
+      "GetColumn": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Column id",
+            "example": "64cb8603ccecc89b385e073f"
+          }
+        }
+      },
+      "ColumnResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "column": {
+            "type": "string",
+            "description": "Column ids",
+            "example": "64cb8603ccecc89b385e073f"
+          }
+        }
+      },
+      "NewColumnResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "200"
+          },
+          "result": {
+            "type": "string",
+            "description": "new column",
+            "example": "{}"
+          }
+        }
+      },
+      "NewColumnRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Project name",
+            "example": "TaskPro Project"
+          },
+          "columnOwner": {
+            "type": "string",
+            "description": "Board id",
+            "example": "64cb8603ccecc89b385e073f"
+          },
+          "orderColumn": {
+            "type": "string",
+            "description": "Number",
+            "example": "5"
+          }
+        }
+      },
+      "CardResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "card": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Card Name",
+                "example": "Create a "
+              },
+              "message": {
+                "type": "string",
+                "description": "Response message",
+                "example": "Success"
+              },
+              "column": {
+                "type": "string",
+                "description": "Column ids",
+                "example": "64cb8603ccecc89b385e073f"
+              }
+            }
           }
         }
       }

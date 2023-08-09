@@ -22,10 +22,6 @@ const columnSchema = new Schema(
         "Сolumn must contain a properly filled <orderColumn> field",
       ],
     },
-    orderColumn: {
-      type: Number,
-      required: [true, "Order cullumn  required"],
-    },
   },
   { versionKey: false, timestamps: true }
 );
