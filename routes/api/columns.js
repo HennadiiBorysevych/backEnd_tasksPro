@@ -7,8 +7,13 @@ const {
   removeColumn,
   updateColumn,
 } = require("../../controllers/columns");
+const { moveColumn } = require("../../controllers/dragAndDrop");
 const { auth, validateBody, isValidId } = require("../../middlewares");
-const { createColumnSchema, updateColumnSchema } = require("../../schemas");
+const {
+  createColumnSchema,
+  updateColumnSchema,
+  columnAndTaskSchema,
+} = require("../../schemas");
 const { controllerWrapper } = require("../../helpers");
 
 router.get("/:id", auth, isValidId, controllerWrapper(getColumnById));
@@ -26,6 +31,13 @@ router.patch(
   isValidId,
   validateBody(updateColumnSchema),
   controllerWrapper(updateColumn)
+);
+
+router.put(
+  "/movecolumn",
+  auth,
+  validateBody(columnAndTaskSchema),
+  controllerWrapper(moveColumn)
 );
 
 router.delete("/:id", auth, isValidId, controllerWrapper(removeColumn));
