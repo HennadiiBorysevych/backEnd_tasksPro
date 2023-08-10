@@ -8,7 +8,7 @@ const { User } = require("../../models");
 const updateUser = async (req, res, next) => {
   const { _id } = req.user;
   const { name, email, password } = req.body;
-  let updateFields = {};
+  const updateFields = {};
 
   if (name) {
     updateFields.name = name;
