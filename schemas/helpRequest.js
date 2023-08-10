@@ -5,4 +5,4 @@ const helpRequestSchema = Joi.object({
   email: Joi.string().required(),
 });
 
-module.exports = helpRequestSchema;
+module.exports = {helpRequestSchema};

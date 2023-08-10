@@ -1,9 +1,9 @@
 const { createBoardSchema, updateBoardSchema } = require("./board");
 const { createColumnSchema, updateColumnSchema } = require("./column");
 const { createCardSchema, updateCardSchema } = require("./card.js");
-const draAndDropSchema = require("./dragAndDrop");
-const themeSchema = require("./theme");
-const helpRequestSchema = require("./helpRequest");
+const { columnAndTaskSchema, taskToColumnSchema } = require("./dragAndDrop");
+const { themeSchema } = require("./theme");
+const { helpRequestSchema } = require("./helpRequest");
 
 module.exports = {
   createBoardSchema,
@@ -12,7 +12,8 @@ module.exports = {
   updateColumnSchema,
   createCardSchema,
   updateCardSchema,
-  draAndDropSchema,
+  columnAndTaskSchema,
+  taskToColumnSchema,
   themeSchema,
   helpRequestSchema,
 };
