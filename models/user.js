@@ -1,8 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
-const Joi = require("joi");
 
-const emailRegexp = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 const themeList = ["Light", "Violet", "Dark"];
 
 const userSchema = new Schema(
