@@ -5,9 +5,10 @@ const {
   registerUser,
   loginUser,
   logoutUser,
+  refreshUser,
 } = require("../../controllers/auth");
 const { validateBody, auth } = require("../../middlewares");
-const { registerSchema, loginSchema } = require("../../schemas");
+const { registerSchema, loginSchema, refreshSchema } = require("../../schemas");
 const { controllerWrapper } = require("../../helpers");
 
 router.post(
@@ -19,5 +20,11 @@ router.post(
 router.post("/login", validateBody(loginSchema), controllerWrapper(loginUser));
 
 router.post("/logout", auth, controllerWrapper(logoutUser));
+
+router.post(
+  "/refresh",
+  validateBody(refreshSchema),
+  controllerWrapper(refreshUser)
+);
 
 module.exports = router;

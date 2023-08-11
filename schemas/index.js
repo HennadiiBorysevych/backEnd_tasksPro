@@ -4,7 +4,7 @@ const { createCardSchema, updateCardSchema } = require("./card.js");
 
 const { columnAndTaskSchema, taskToColumnSchema } = require("./dragAndDrop");
 
-const { registerSchema, loginSchema } = require("./auth");
+const { registerSchema, loginSchema, refreshSchema } = require("./auth");
 const { updateSchema } = require("./user");
 
 const { themeSchema } = require("./theme");
@@ -30,6 +30,7 @@ module.exports = {
 
   registerSchema,
   loginSchema,
+  refreshSchema,
 
   updateSchema,
 };
