@@ -1,5 +1,5 @@
 const { HttpError } = require("../../helpers");
-const { User } = require("../../models/user");
+const { User, Token } = require("../../models");
 
 const logoutUser = async (req, res) => {
   const { _id } = req.user;
@@ -9,6 +9,13 @@ const logoutUser = async (req, res) => {
   if (!user) {
     throw HttpError(401, "Not authorized");
   }
+
+  const tokenRefresh = await Token.findOneAndRemove({ userId: _id });
+
+  if (!tokenRefresh) {
+    throw HttpError(401, "Not authorized");
+  }
+
   res.status(204);
   res.json();
 };
