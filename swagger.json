@@ -746,7 +746,7 @@
         }
       }
     },
-    "/api/cards/:id": {
+    "/api/cards/{id}": {
       "get": {
         "tags": ["Cards"],
         "summary": "Get card by ID",
@@ -786,7 +786,7 @@
         }
       }
     },
-    "/api/cards/:id/": {
+    "/api/cards/:id": {
       "post": {
         "tags": ["Cards"],
         "summary": "Add card",
@@ -816,7 +816,7 @@
         }
       }
     },
-    "/api/cards/id/": {
+    "/api/cards/id": {
       "patch": {
         "tags": ["Cards"],
         "summary": "Update card by ID",
@@ -846,7 +846,7 @@
         }
       }
     },
-    "/api/cards/id": {
+    "/api/cards/:{id}": {
       "delete": {
         "tags": ["Cards"],
         "summary": "Delete card by ID",
