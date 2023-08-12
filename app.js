@@ -2,9 +2,11 @@ const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
+const mongoose = require('mongoose');
 const passport = require("passport");
+const MongoStore = require("connect-mongo");
+//const { DB } = process.env;
 require('./service');
-//const FileStore = require("session-file-store")(session);
 require("dotenv").config();
 
 const swaggerUi = require("swagger-ui-express");
@@ -19,6 +21,8 @@ const columnsRouter = require("./routes/api/columns");
 const cardsRouter = require("./routes/api//cards");
 
 const dragAndDropRouter = require("./routes/api/dragAndDrop");
+
+//const mongoose = require('./');
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -39,6 +43,7 @@ app.use(
     },
     saveUninitialized: false,
     resave: false,
+    store: new MongoStore({ mongoUrl: process.env.DB })
   }),
 );
 

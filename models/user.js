@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 const bcrypt = require("bcrypt"); 
+const mongoose = require('mongoose');
 
 const emailRegexp = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 const themeList = ["Light", "Violet", "Dark"];
@@ -39,6 +40,12 @@ userSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
+const sessionSchema = new Schema(
+  {
+uid: mongoose.Types.ObjectId,
+  })
+//const sessionModel = mongoose.model("Session", sessionSchema);
+
 userSchema.post("save", handleMongooseError);
 
 const User = model("user", userSchema);
@@ -64,9 +71,10 @@ const schemas = {
   registerSchema,
   loginSchema,
   updateSchema,
+  sessionSchema
 };
 
 module.exports = {
   User,
-  schemas,
+  schemas
 };
