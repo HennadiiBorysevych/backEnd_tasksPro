@@ -10,7 +10,7 @@ const logoutUser = async (req, res) => {
     throw HttpError(401, "Not authorized");
   }
 
-  const tokenRefresh = await Token.findOneAndRemove({ userId: _id });
+  const tokenRefresh = await Token.findOneAndRemove({ userEmail: user.email });
 
   if (!tokenRefresh) {
     throw HttpError(401, "Not authorized");

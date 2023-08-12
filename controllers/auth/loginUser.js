@@ -23,12 +23,17 @@ const loginUser = async (req, res) => {
     throw HttpError(401, "Email or password is wrong");
   }
 
+  const userInTokensCollection = await Token.findOne({ userEmail: email });
+  if (userInTokensCollection) {
+    await Token.findOneAndRemove({ userEmail: email });
+  }
+
   const payload = {
     id: user._id,
   };
 
-  const token = await jwt.sign(payload, SECRET_KEY, { expiresIn: "11h" });
-  const tokenRefresh = await jwt.sign(payload, REFRESH_KEY, {
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "11h" });
+  const tokenRefresh = jwt.sign(payload, REFRESH_KEY, {
     expiresIn: "23h",
   });
 
