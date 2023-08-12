@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
-const bcrypt = require("bcrypt"); 
 const mongoose = require('mongoose');
 
 const emailRegexp = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -35,10 +34,6 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
-
-userSchema.methods.validPassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
-};
 
 const sessionSchema = new Schema(
   {

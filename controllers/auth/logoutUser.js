@@ -9,7 +9,7 @@ const logoutUser = async (req, res) => {
   const sessionDeletionResult = await Session.deleteOne({ _id: currentSession._id });
 
   if (!user || !sessionDeletionResult) {
-   throw HttpError(401, "Not authorized");
+    throw HttpError(401, "Not authorized");
   }
   res.status(204);
   res.json();
