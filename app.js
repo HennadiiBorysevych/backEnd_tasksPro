@@ -2,13 +2,10 @@ const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
-const mongoose = require('mongoose');
-const passport = require("passport");
 const MongoStore = require("connect-mongo");
-//const { DB } = process.env;
 require('./service');
 require("dotenv").config();
-
+const { SESSION_SECRET_WORD, SESSION_KEY, DB } = process.env;
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 
@@ -22,8 +19,6 @@ const cardsRouter = require("./routes/api//cards");
 
 const dragAndDropRouter = require("./routes/api/dragAndDrop");
 
-//const mongoose = require('./');
-
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -34,8 +29,8 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: 'secret-word',
-    key: 'session-key',
+    secret: SESSION_SECRET_WORD,
+    key: SESSION_KEY,
     cookie: {
       path: '/',
       httpOnly: true,
@@ -43,12 +38,12 @@ app.use(
     },
     saveUninitialized: false,
     resave: false,
-    store: new MongoStore({ mongoUrl: process.env.DB })
+    store: MongoStore.create({
+      mongoUrl: DB,
+      autoRemove: 'native'
+    })
   }),
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

@@ -1,9 +1,7 @@
 const { HttpError } = require("../../helpers");
-const { User } = require("../../models/user");
-const { schemas } = require("../../models/user")
+const { User, Session } = require("../../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const mongoose = require('mongoose');
 
 const { SECRET_KEY } = process.env;
 
@@ -25,11 +23,12 @@ const loginUser = async (req, res) => {
     throw HttpError(401, "Email or password is wrong");
   }
 
-  const Session = mongoose.model("Session", schemas.sessionSchema);
-  const newSession = await Session.create({
+    const newSession = await Session.create({
     uid: user._id,
   });
-
+  //   const delSession = await Session.destroy({
+  //   uid: user._id,
+  // });
   const payload = {
     id: user._id,
     sid: newSession._id,

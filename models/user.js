@@ -44,7 +44,7 @@ const sessionSchema = new Schema(
   {
 uid: mongoose.Types.ObjectId,
   })
-//const sessionModel = mongoose.model("Session", sessionSchema);
+const Session = mongoose.model("Session", sessionSchema);
 
 userSchema.post("save", handleMongooseError);
 
@@ -76,5 +76,6 @@ const schemas = {
 
 module.exports = {
   User,
+  Session,
   schemas
 };

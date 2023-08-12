@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { HttpError } = require("../helpers");
-const { User } = require("../models/user");
-const { schemas } = require("../models/user")
-const mongoose = require('mongoose');
+const { User, Session } = require("../models/user");
 
 const { SECRET_KEY } = process.env;
 
@@ -20,10 +18,9 @@ const auth = async (req, res, next) => {
   try {
     const { id, sid } = jwt.verify(token, SECRET_KEY);
     const user = await User.findById(id);
-    const Session = mongoose.model("Session", schemas.sessionSchema);
     const currentSession = await Session.findById(sid);
     if (!user || !user.token || !currentSession || token !== user.token) {
-      next(HttpError(401));
+    throw next(HttpError(401));
     }
     req.user = user;
     req.session._id = currentSession._id;
