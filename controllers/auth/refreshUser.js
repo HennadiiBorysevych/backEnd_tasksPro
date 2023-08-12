@@ -16,7 +16,14 @@ const refreshUser = async (req, res) => {
     throw HttpError(401, "Email is not authorized");
   }
 
-  if (req.body.tokenRefresh !== userRefresh.tokenRefresh) {
+  const validateTokenResult = jwt.verify(req.body.tokenRefresh, REFRESH_KEY);
+
+  if (
+    req.body.tokenRefresh !== userRefresh.tokenRefresh ||
+    !validateTokenResult
+  ) {
+    await User.findOneAndUpdate({ userEmail }, { token: "" });
+    await Token.findOneAndRemove({ userEmail });
     throw HttpError(401, "Token is not valid");
   }
 
