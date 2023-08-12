@@ -26,9 +26,7 @@ const loginUser = async (req, res) => {
     const newSession = await Session.create({
     uid: user._id,
   });
-  //   const delSession = await Session.destroy({
-  //   uid: user._id,
-  // });
+
   const payload = {
     id: user._id,
     sid: newSession._id,
