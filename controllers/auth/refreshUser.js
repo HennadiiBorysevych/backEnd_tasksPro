@@ -33,8 +33,13 @@ const refreshUser = async (req, res) => {
     throw HttpError(401, "User email invalid or unauthorized");
   }
 
+    const newSession = await Session.create({
+    uid: user._id,
+  });
+
   const payload = {
     id: user._id,
+    sid: newSession._id,
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "11h" });
