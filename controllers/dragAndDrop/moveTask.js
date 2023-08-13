@@ -10,23 +10,27 @@ const moveTask = async (req, res) => {
   const dataNew = [];
 
   for (const item of data) {
+    if (!item.id) {
+      throw HttpError(400, "No task id");
+    }
+
     const result = await Card.findByIdAndUpdate(
       { _id: item.id },
       { $set: { orderTask: item.order } },
       { new: true }
     );
 
-    dataNew.push({ id: result.id, order: result.orderTask });
-
     if (!result) {
-      throw HttpError(500, "error move task");
+      throw HttpError(500, "Error moving task in database");
     }
+
+    dataNew.push({ id: result.id, order: result.orderTask });
   }
 
   res.status(200);
   res.json({
     code: 200,
-    message: "Update position task ",
+    message: "Success. Updated the task position",
     data: dataNew,
   });
 };
