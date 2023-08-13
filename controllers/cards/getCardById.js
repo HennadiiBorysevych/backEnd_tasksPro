@@ -5,14 +5,14 @@ const getCardById = async (req, res) => {
   const { id } = req.params;
   const card = await Card.findById(id, "-createdAt -updatedAt");
   if (!card) {
-    throw HttpError(404, "Not found");
+    throw HttpError(404, "Card not found");
   }
 
   res.status(200);
   res.json({
     code: 200,
-    message: "Success",
-    card,
+    message: "Get card by ID success",
+    data: card,
   });
 };
 

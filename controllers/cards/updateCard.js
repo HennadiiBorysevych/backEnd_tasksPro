@@ -8,13 +8,14 @@ const updateCard = async (req, res) => {
   }).select({ createdAt: 0, updatedAt: 0 });
 
   if (!result) {
-    throw HttpError(404, "Not found");
+    throw HttpError(404, "Card not found");
   }
 
   res.status(201);
   res.json({
     code: 201,
-    result,
+    message: "Card update success",
+    data: result,
   });
 };
 
