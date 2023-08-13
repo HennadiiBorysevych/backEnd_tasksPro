@@ -1,5 +1,5 @@
 const { HttpError } = require("../../helpers");
-const { User, Token } = require("../../models");
+const { User, Token, Session } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -28,8 +28,13 @@ const loginUser = async (req, res) => {
     await Token.findOneAndRemove({ userEmail: email });
   }
 
+  const newSession = await Session.create({
+    uid: user._id,
+  });
+
   const payload = {
     id: user._id,
+    sid: newSession._id,
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "11h" });
