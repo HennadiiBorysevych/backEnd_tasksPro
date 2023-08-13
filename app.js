@@ -33,7 +33,7 @@ app.use(
     cookie: {
       path: '/',
       httpOnly: true,
-      maxAge: 60 * 60 * 1000,
+      maxAge: 8 * 60 * 60 * 1000,
     },
     saveUninitialized: false,
     resave: false,
