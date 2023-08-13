@@ -6,8 +6,8 @@ const addBoard = async (req, res) => {
   res.status(201);
   res.json({
     code: 201,
-    message: "Success",
-    result: newBoard,
+    message: "Add board success",
+    data: newBoard,
   });
 };
 

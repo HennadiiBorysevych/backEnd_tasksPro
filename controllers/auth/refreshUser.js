@@ -13,7 +13,7 @@ const refreshUser = async (req, res) => {
   const userRefresh = await Token.findOne({ userEmail });
 
   if (!userRefresh) {
-    throw HttpError(401, "Email is not authorized");
+    throw HttpError(401, "User email invalid or unauthorized");
   }
 
   const validateTokenResult = jwt.verify(req.body.tokenRefresh, REFRESH_KEY);
@@ -24,22 +24,22 @@ const refreshUser = async (req, res) => {
   ) {
     await User.findOneAndUpdate({ userEmail }, { token: "" });
     await Token.findOneAndRemove({ userEmail });
-    throw HttpError(401, "Token is not valid");
+    throw HttpError(403, "Refresh token invalid or unauthorized");
   }
 
   const user = await User.findOne({ email: userEmail });
 
   if (!user) {
-    throw HttpError(401, "User is not authorized");
+    throw HttpError(401, "User email invalid or unauthorized");
   }
 
   const payload = {
     id: user._id,
   };
 
-  const token = await jwt.sign(payload, SECRET_KEY, { expiresIn: "11h" });
-  const tokenRefresh = await jwt.sign(payload, REFRESH_KEY, {
-    expiresIn: "23h",
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "11h" });
+  const tokenRefresh = jwt.sign(payload, REFRESH_KEY, {
+    expiresIn: "23d",
   });
 
   await User.findByIdAndUpdate(user._id, { token });
@@ -48,7 +48,7 @@ const refreshUser = async (req, res) => {
   res.status(200);
   res.json({
     code: 200,
-    message: "Success",
+    message: "Refresh success",
     token,
     tokenRefresh,
   });

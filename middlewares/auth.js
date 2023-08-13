@@ -19,12 +19,12 @@ const auth = async (req, res, next) => {
     const { id } = jwt.verify(token, SECRET_KEY);
     const user = await User.findById(id);
     if (!user || !user.token || token !== user.token) {
-      next(HttpError(401));
+      next(HttpError(401, "Token invalid or expired"));
     }
     req.user = user;
     next();
-  } catch {
-    next(HttpError(401));
+  } catch (error) {
+    next(error);
   }
 };
 
