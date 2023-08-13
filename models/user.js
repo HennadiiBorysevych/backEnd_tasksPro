@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
-const mongoose = require('mongoose');
 
 const themeList = ["Light", "Violet", "Dark"];
 
@@ -32,18 +31,10 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
-
-const sessionSchema = new Schema(
-  {
-uid: mongoose.Types.ObjectId,
-  })
-const Session = mongoose.model("Session", sessionSchema);
-
 userSchema.post("save", handleMongooseError);
 
 const User = model("user", userSchema);
 
 module.exports = {
   User,
-  Session,
 };
