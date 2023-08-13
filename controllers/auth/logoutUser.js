@@ -1,12 +1,14 @@
 const { HttpError } = require("../../helpers");
-const { User, Token } = require("../../models");
+const { User, Token, Session } = require("../../models");
 
 const logoutUser = async (req, res) => {
   const { _id } = req.user;
 
   const user = await User.findByIdAndUpdate(_id, { token: "" });
+  const currentSession = req.session;
+  const sessionDeletionResult = await Session.deleteOne({ _id: currentSession._id });
 
-  if (!user) {
+  if (!user || !sessionDeletionResult) {
     throw HttpError(401, "Not authorized");
   }
 
