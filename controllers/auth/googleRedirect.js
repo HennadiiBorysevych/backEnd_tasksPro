@@ -1,6 +1,6 @@
 const queryString = require("querystring");
 const axios = require("axios");
-const { HttpError } = require("../../helpers");
+// const { HttpError } = require("../../helpers");
 const { User, Token, Session } = require("../../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -27,7 +27,7 @@ const googleRedirect = async (req, res) => {
     data: {
       client_id: GOOGLE_CLIENT_ID,
       client_secret: GOOGLE_CLIENT_SECRET,
-      redirect_uri: `${BASE_URL}/api/auth/google-redirect`,
+      redirect_uri: `${BASE_URL}api/auth/google-redirect`,
       grant_type: "authorization_code",
       code,
     },
@@ -39,7 +39,6 @@ const googleRedirect = async (req, res) => {
       Authorization: `Bearer ${tokenData.data.access_token}`,
     },
   });
-
   const user = await User.findOne({ email: userData.email });
 
   if (!user) {
@@ -83,7 +82,7 @@ const googleRedirect = async (req, res) => {
   });
 
   return res.redirect(
-    `${BASE_URL_FRONTEND}/login/?token=${token}&tokenRefresh=${tokenRefresh}`
+    `${BASE_URL_FRONTEND}/frontEnd_tasksPro/welcome/?token=${token}&tokenRefresh=${tokenRefresh}`
   );
 };
 
