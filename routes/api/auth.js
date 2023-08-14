@@ -6,6 +6,8 @@ const {
   loginUser,
   logoutUser,
   refreshUser,
+  google,
+  googleRedirect,
 } = require("../../controllers/auth");
 const { validateBody, auth } = require("../../middlewares");
 const { registerSchema, loginSchema, refreshSchema } = require("../../schemas");
@@ -26,5 +28,8 @@ router.post(
   validateBody(refreshSchema),
   controllerWrapper(refreshUser)
 );
+
+router.get("/google", controllerWrapper(google));
+router.get("/google-redirect", controllerWrapper(googleRedirect));
 
 module.exports = router;
