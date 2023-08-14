@@ -1,8 +1,0 @@
-PORT=10000
-DB=mongodb+srv://genuch3:4oJ46JsKR3Ub5gA6@cluster0.eywpzpo.mongodb.net/pro_tasks
-SECRET_KEY=traktor_govoryt-tyr-tyr-tyr
-CLOUDINARY_NAME=taskspro
-CLOUDINARY_API_KEY=511791592168719
-CLOUDINARY_API_SECRET=fLYQkKZNeNUQTxWlzGjjQsn0Ij8
-SESSION_SECRET_WORD=secret-word
-SESSION_KEY=secret-key
