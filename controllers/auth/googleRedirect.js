@@ -27,7 +27,7 @@ const googleRedirect = async (req, res) => {
     data: {
       client_id: GOOGLE_CLIENT_ID,
       client_secret: GOOGLE_CLIENT_SECRET,
-      redirect_uri: `${BASE_URL}api/auth/google-redirect`,
+      redirect_uri: `https://backend-taskspro-public.onrender.com/api/auth/google-redirect`,
       grant_type: "authorization_code",
       code,
     },
