@@ -10,7 +10,6 @@ const {
   REFRESH_KEY,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
-  BASE_URL,
   BASE_URL_FRONTEND,
 } = process.env;
 
