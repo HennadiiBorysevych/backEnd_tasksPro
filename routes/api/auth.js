@@ -22,7 +22,7 @@ router.post("/logout", auth, controllerWrapper(authController.logoutUser));
 
 router.get("/google", controllerWrapper(authController.google));
 router.get(
-  "/google-regirect",
+  "/google-redirect",
   controllerWrapper(authController.googleRedirect)
 );
 
