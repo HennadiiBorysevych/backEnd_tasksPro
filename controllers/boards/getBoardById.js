@@ -4,16 +4,13 @@ const { HttpError } = require("../../helpers");
 const getBoardById = async (req, res) => {
   const { id } = req.params;
   const board = await Board.findById(id, "-createdAt -updatedAt");
-
   if (!board) {
-    throw HttpError(404, "Not found");
+    throw HttpError(404, "Board not found");
   }
-
   const columns = await Column.find(
     { columnOwner: id },
     "-createdAt -updatedAt"
   );
-
   async function findCards(array) {
     const nestedArrsOfCards = [];
     for await (const column of array) {
@@ -29,7 +26,7 @@ const getBoardById = async (req, res) => {
   res.status(200);
   res.json({
     code: 200,
-    message: "Success",
+    message: "Get board by ID success",
     board,
     columns,
     cards,

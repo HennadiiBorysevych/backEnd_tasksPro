@@ -22,10 +22,6 @@
       "description": "Authorization endpoints"
     },
     {
-      "name": "DragAndDrop",
-      "description": "DragAndDrop endpoints"
-    },
-    {
       "name": "User",
       "description": "User endpoints"
     },
@@ -146,139 +142,45 @@
         }
       }
     },
-
-    "/api/drag/moveColumn": {
-      "put": {
-        "tags": ["DragAndDrop"],
-        "summary": "Move column",
+    "/api/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh token",
         "parameters": [],
-        "description": "**Changing the position of column**",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
+        "description": "**Refresh token**",
         "requestBody": {
-          "description": "Column's id and position",
+          "description": "",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DragAndDrop"
+                "$ref": "#/components/schemas/Email"
               }
             }
           }
         },
         "responses": {
-          "400": {
-            "description": "Not Body",
-            "content": {}
-          },
-          "500": {
-            "description": "Error move column",
-            "content": {}
-          },
           "200": {
-            "description": "Error move column",
+            "description": "No Content",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DragAndDropResponse"
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/drag/moveTask": {
-      "put": {
-        "tags": ["DragAndDrop"],
-        "summary": "Move task",
-        "parameters": [],
-        "description": "**Changing the position of task**",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "requestBody": {
-          "description": "Column's id and position",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DragAndDrop"
-              }
-            }
-          }
-        },
-        "responses": {
+          },
+          "204": {
+            "description": "No Content",
+            "content": {}
+          },
           "400": {
-            "description": "Not Body",
+            "description": "Error. Provide all required fields",
             "content": {}
           },
-          "500": {
-            "description": "Error move task",
+          "401": {
+            "description": "Email is not authorized",
             "content": {}
-          },
-          "200": {
-            "description": "Error move column",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DragAndDropResponseTask"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/drag/moveTaskToColumn": {
-      "put": {
-        "tags": ["DragAndDrop"],
-        "summary": "Move task to another column",
-        "parameters": [],
-        "description": "**Changing the position of task to another column**",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "requestBody": {
-          "description": "ids of Column, Task",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MoveTasktoColumn"
-              }
-            }
-          }
-        },
-        "responses": {
-          "400": {
-            "description": "Not idTask or not idColumnNew or not dataOld or not dataNew",
-            "content": {}
-          },
-          "404": {
-            "description": "Task not found, column not found",
-            "content": {}
-          },
-          "500": {
-            "description": "Error move task",
-            "content": {}
-          },
-          "200": {
-            "description": "Error move column",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DragAndDropResponseTask"
-                }
-              }
-            }
           }
         }
       }
@@ -447,7 +349,7 @@
         }
       }
     },
-    "/api/boards": {
+    "/api/boards/": {
       "get": {
         "tags": ["Boards"],
         "summary": "Get all board",
@@ -475,7 +377,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateUserResponse"
+                  "$ref": "#/components/schemas/AllBoardsResponse"
                 }
               }
             }
@@ -535,7 +437,7 @@
           }
         ],
         "requestBody": {
-          "description": "Board id",
+          "description": "User id",
           "required": true,
           "content": {
             "application/json": {
@@ -546,7 +448,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "application/json": {
@@ -559,7 +461,7 @@
         }
       }
     },
-    "/api/boards:/id": {
+    "/api/boards/:id/": {
       "patch": {
         "tags": ["Boards"],
         "summary": "Update board",
@@ -599,7 +501,7 @@
         }
       }
     },
-    "/api/boards:/id": {
+    "/api/boards/id": {
       "delete": {
         "tags": ["Boards"],
         "summary": "Delete board",
@@ -639,7 +541,8 @@
         }
       }
     },
-    "/api/columns/:id": {
+
+    "/api/columns/:id/": {
       "get": {
         "tags": ["Columns"],
         "summary": "Column id",
@@ -719,7 +622,7 @@
         }
       }
     },
-    "/api/columns/:id": {
+    "/api/columns/id/": {
       "patch": {
         "tags": ["Columns"],
         "summary": "Column id",
@@ -755,6 +658,50 @@
           "404": {
             "description": "Not Found",
             "content": {}
+          }
+        }
+      }
+    },
+    "/api/column/movecolumn": {
+      "put": {
+        "tags": ["Columns"],
+        "summary": "Move column",
+        "parameters": [],
+        "description": "**Changing the position of column**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Column's id and position",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DragAndDrop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not Body",
+            "content": {}
+          },
+          "500": {
+            "description": "Error move column",
+            "content": {}
+          },
+          "200": {
+            "description": "Error move column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DragAndDropResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -799,10 +746,10 @@
         }
       }
     },
-    "/api/api/cards": {
+    "/api/cards/{id}": {
       "get": {
         "tags": ["Cards"],
-        "summary": "Get all cards of column",
+        "summary": "Get card by ID",
         "parameters": [],
         "description": "**Cards**",
         "security": [
@@ -835,6 +782,192 @@
           "404": {
             "description": "Not Found",
             "content": {}
+          }
+        }
+      }
+    },
+    "/api/cards/:id": {
+      "post": {
+        "tags": ["Cards"],
+        "summary": "Add card",
+        "parameters": [],
+        "description": "**Cards**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Columns id",
+          "required": true,
+          "content": {}
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards/id": {
+      "patch": {
+        "tags": ["Cards"],
+        "summary": "Update card by ID",
+        "parameters": [],
+        "description": "**Cards**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Columns id",
+          "required": true,
+          "content": {}
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards/:{id}": {
+      "delete": {
+        "tags": ["Cards"],
+        "summary": "Delete card by ID",
+        "parameters": [],
+        "description": "**Cards**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Card id",
+          "required": true,
+          "content": {}
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardDeleteResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/cards/movetask": {
+      "put": {
+        "tags": ["Cards"],
+        "summary": "Move task",
+        "parameters": [],
+        "description": "**Changing the position of task**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "Column's id and position",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DragAndDrop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not Body",
+            "content": {}
+          },
+          "500": {
+            "description": "Error move task",
+            "content": {}
+          },
+          "200": {
+            "description": "Error move column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DragAndDropResponseTask"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards/movetasktocolumn": {
+      "put": {
+        "tags": ["Cards"],
+        "summary": "Move task to another column",
+        "parameters": [],
+        "description": "**Changing the position of task to another column**",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "ids of Column, Task",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveTasktoColumn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not idTask or not idColumnNew or not dataOld or not dataNew",
+            "content": {}
+          },
+          "404": {
+            "description": "Task not found, column not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Error move task",
+            "content": {}
+          },
+          "200": {
+            "description": "Error move column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DragAndDropResponseTask"
+                }
+              }
+            }
           }
         }
       }
@@ -1208,6 +1341,42 @@
           }
         }
       },
+      "AllBoardsResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Success"
+          },
+          "boards": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "example": "Task",
+                "description": "Board title"
+              },
+              "icon": {
+                "example": "icon-Project",
+                "description": "Board icon"
+              },
+              "background": {
+                "example": "empty",
+                "description": "Board background"
+              },
+              "user": {
+                "example": "Exk_soSUARn-t-7FDQKsiFBTutt_vc9ok9UPuTdGqBU",
+                "description": "Board owner "
+              }
+            }
+          }
+        }
+      },
       "BoardResponse": {
         "type": "object",
         "properties": {
@@ -1400,6 +1569,54 @@
                 "example": "64cb8603ccecc89b385e073f"
               }
             }
+          }
+        }
+      },
+      "CardDeleteResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "description": "Code",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Task delete success",
+            "example": "Task delete success"
+          }
+        }
+      },
+      "Email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "johnWick@gmail.com"
+          }
+        }
+      },
+      "RefreshTokenResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "http",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "example": "Success"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVkNjJlNjE4MzgwMzY4NTk0NDZjNCIsImlhdCI6MTY4NzYxMjMzMCwiZXhwIjoxNjg3Njk4NzMwfQ.Exk_soSUARn-t-7FDQKsiFBTutt_vc9ok9UPuTdGqBU"
+          },
+          "tokenRefresh": {
+            "type": "string",
+            "description": "User's tokenRefresh",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTVkNjJlNjE4MzgwMzY4NTk0NDZjNCIsImlhdCI6MTY4NzYxMjMzMCwiZXhwIjoxNjg3Njk4NzMwfQ.Exk_soSUARn-t-7FDQKsiFBTutt_vc9ok9UPuTdGqBU"
           }
         }
       }

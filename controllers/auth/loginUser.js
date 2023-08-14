@@ -1,9 +1,9 @@
 const { HttpError } = require("../../helpers");
-const { User } = require("../../models/user");
+const { User, Token, Session } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { SECRET_KEY } = process.env;
+const { SECRET_KEY, REFRESH_KEY } = process.env;
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -23,18 +23,37 @@ const loginUser = async (req, res) => {
     throw HttpError(401, "Email or password is wrong");
   }
 
+  const userInTokensCollection = await Token.findOne({ userEmail: email });
+  if (userInTokensCollection) {
+    await Token.findOneAndRemove({ userEmail: email });
+  }
+
+  const newSession = await Session.create({
+    uid: user._id,
+  });
+
   const payload = {
     id: user._id,
+    sid: newSession._id,
   };
 
-  const token = await jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "11h" });
+  const tokenRefresh = jwt.sign(payload, REFRESH_KEY, {
+    expiresIn: "23d",
+  });
+
   await User.findByIdAndUpdate(user._id, { token });
+  await Token.create({
+    userEmail: user.email,
+    tokenRefresh,
+  });
 
   res.status(200);
   res.json({
     code: 200,
-    message: "Success",
+    message: "User login success",
     token,
+    tokenRefresh,
     user: {
       name: user.name,
       email: user.email,

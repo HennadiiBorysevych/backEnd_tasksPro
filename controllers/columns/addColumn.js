@@ -5,8 +5,8 @@ const addColumn = async (req, res) => {
   res.status(201);
   res.json({
     code: 201,
-    message: "Success",
-    result: newColumn,
+    message: "Add column success",
+    data: newColumn,
   });
 };
 
