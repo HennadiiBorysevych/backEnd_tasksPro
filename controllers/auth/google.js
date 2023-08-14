@@ -2,7 +2,7 @@ const queryString = require("querystring");
 const google = async (req, res) => {
   const stringifiedParams = queryString.stringify({
     client_id: process.env.GOOGLE_CLIENT_ID,
-    redirect_uri: `${process.env.BASE_URL}/api/auth/google-regirect`,
+    redirect_uri: `${process.env.BASE_URL}/api/auth/google-redirect`,
     scope: [
       "https://www.googleapis.com/auth/userinfo.email",
       "https://www.googleapis.com/auth/userinfo.profile",
