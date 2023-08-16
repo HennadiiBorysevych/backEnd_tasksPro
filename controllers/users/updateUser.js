@@ -3,12 +3,13 @@ const fs = require("fs/promises");
 
 const { cloudinary } = require("../../service");
 const { HttpError } = require("../../helpers");
-const { User } = require("../../models");
+const { User, Token } = require("../../models");
 
 const updateUser = async (req, res, next) => {
   const { _id } = req.user;
-  const { name, email, password } = req.body;
+  const { name, email, password, passwordOld } = req.body;
   const updateFields = {};
+  const user = await User.findById(_id);
 
   if (name) {
     updateFields.name = name;
@@ -16,12 +17,30 @@ const updateUser = async (req, res, next) => {
 
   if (email) {
     updateFields.email = email;
+    if (!user) {
+      throw HttpError(401, "User unauthorized");
+    }
+    await Token.findOneAndUpdate(
+      { userEmail: user.email },
+      { userEmail: email }
+    );
   }
 
   if (password) {
+    if (!passwordOld) {
+      throw HttpError(400, "passwordOld required");
+    }
+    if (!user) {
+      throw HttpError(401, "User unauthorized");
+    }
+    const passwordCompare = await bcrypt.compare(passwordOld, user.password);
+    if (!passwordCompare) {
+      throw HttpError(401, "Old password is wrong");
+    }
     const hashPassword = await bcrypt.hash(password, 10);
     updateFields.password = hashPassword;
   }
+
   if (req.file && req.file.path) {
     await cloudinary.uploader.upload(
       req.file.path,
