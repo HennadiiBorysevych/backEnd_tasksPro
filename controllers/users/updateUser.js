@@ -11,6 +11,12 @@ const updateUser = async (req, res, next) => {
   const updateFields = {};
   const user = await User.findById(_id);
 
+  const userDB = await User.findOne({ email });
+
+  if (userDB) {
+    throw HttpError(409, "Email already in use");
+  }
+
   if (name) {
     updateFields.name = name;
   }
