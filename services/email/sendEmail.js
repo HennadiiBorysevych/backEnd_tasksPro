@@ -18,7 +18,8 @@ const sendEmail = async (data) => {
   const email = {
     ...data,
     from: "v.v.derkach@meta.ua",
-    to: "taskpro.project@gmail.com",
+    to: "bobikderkac@gmail.com",
+    // to: "taskpro.project@gmail.com",
   };
 
   await transport.sendMail(email);
