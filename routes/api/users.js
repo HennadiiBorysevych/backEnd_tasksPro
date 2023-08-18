@@ -5,6 +5,8 @@ const {
   helpRequest,
   currentUser,
   updateUser,
+  forgotPassword,
+  forgotPasswordSend,
 } = require("../../controllers/users");
 const { multerUpload, validateBody, auth } = require("../../middlewares");
 const {
@@ -20,6 +22,14 @@ router.patch(
   validateBody(themeSchema),
   controllerWrapper(updateTheme)
 );
+
+router.patch(
+  "/forgotpasswordsend",
+
+  controllerWrapper(forgotPasswordSend)
+);
+
+router.patch("/forgotpassword", controllerWrapper(forgotPassword));
 
 router.patch(
   "/help",

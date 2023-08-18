@@ -2,7 +2,8 @@ const currentUser = require("./currentUser");
 const updateTheme = require("./updateTheme");
 const updateUser = require("./updateUser");
 const helpRequest = require("./helpRequest");
-const forgotPassword = require("./fotgotPassword");
+const forgotPassword = require("./forgotPassword");
+const forgotPasswordSend = require("./forgotPasswordSend");
 
 module.exports = {
   currentUser,
@@ -10,4 +11,5 @@ module.exports = {
   updateUser,
   helpRequest,
   forgotPassword,
+  forgotPasswordSend,
 };
