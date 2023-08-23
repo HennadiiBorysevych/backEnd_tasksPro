@@ -7,13 +7,15 @@ const { User, Token } = require("../../models");
 
 const updateUser = async (req, res, next) => {
   const { _id } = req.user;
-  const { name, email, password, passwordOld } = req.body;
+  const { name, email, password, newPassword } = req.body.user;
+
+  console.log("req.body---->", req.body);
+
   const updateFields = {};
-  const user = await User.findById(_id);
 
-  const userDB = await User.findOne({ email });
+  const user = await User.findOne({ email });
 
-  if (userDB) {
+  if (user) {
     throw HttpError(409, "Email already in use");
   }
 
@@ -22,28 +24,35 @@ const updateUser = async (req, res, next) => {
   }
 
   if (email) {
-    updateFields.email = email;
-    if (!user) {
-      throw HttpError(401, "User unauthorized");
+    if (!password) {
+      throw HttpError(400, "Password required");
     }
+
+    const passwordCompare = await bcrypt.compare(password, user.password);
+    if (!passwordCompare) {
+      throw HttpError(401, "Password is wrong");
+    }
+
+    updateFields.email = email;
+
     await Token.findOneAndUpdate(
       { userEmail: user.email },
       { userEmail: email }
     );
   }
 
-  if (password) {
-    if (!passwordOld) {
-      throw HttpError(400, "passwordOld required");
+  if (newPassword) {
+    if (!password) {
+      throw HttpError(400, "Password required");
     }
-    if (!user) {
-      throw HttpError(401, "User unauthorized");
-    }
-    const passwordCompare = await bcrypt.compare(passwordOld, user.password);
+
+    const passwordCompare = await bcrypt.compare(password, user.password);
+
     if (!passwordCompare) {
       throw HttpError(401, "Old password is wrong");
     }
-    const hashPassword = await bcrypt.hash(password, 10);
+
+    const hashPassword = await bcrypt.hash(newPassword, 10);
     updateFields.password = hashPassword;
   }
 
@@ -61,27 +70,46 @@ const updateUser = async (req, res, next) => {
       }
     );
   }
-  updateUserData();
-  async function updateUserData() {
-    try {
-      const updatedUser = await User.findByIdAndUpdate(_id, updateFields, {
-        new: true,
-      });
 
-      if (!updatedUser) {
-        return next(HttpError(404, "User not found"));
-      }
+  const updatedUser = await User.findByIdAndUpdate(_id, updateFields, {
+    new: true,
+  });
 
-      const { name, email, theme, avatarURL } = updatedUser;
-      res.status(200).json({
-        message: "Update success",
-        user: { name, email, theme, avatarURL },
-      });
-    } catch (err) {
-      next(HttpError(500, "Error updating user"));
-      console.log(err.message);
-    }
+  if (!updatedUser) {
+    return next(HttpError(404, "Update user not found"));
   }
+
+  res.status(200).json({
+    message: "Update success",
+    user: {
+      name: updatedUser.name,
+      email: updatedUser.email,
+      theme: updatedUser.theme,
+      avatarURL: updatedUser.avatar,
+    },
+  });
+
+  // updateUserData();
+  // async function updateUserData() {
+  //   try {
+  //     const updatedUser = await User.findByIdAndUpdate(_id, updateFields, {
+  //       new: true,
+  //     });
+
+  //     if (!updatedUser) {
+  //       return next(HttpError(404, "User not found"));
+  //     }
+
+  //     const { name, email, theme, avatarURL } = updatedUser;
+  //     res.status(200).json({
+  //       message: "Update success",
+  //       user: { name, email, theme, avatarURL },
+  //     });
+  //   } catch (err) {
+  //     next(HttpError(500, "Error updating user"));
+  //     console.log(err.message);
+  //   }
+  // }
 };
 
 module.exports = updateUser;
