@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// const { META_KEY } = process.env;
+const { META_KEY } = process.env;
 
 const nodemailerConfig = {
   host: "smtp.meta.ua",
@@ -9,7 +9,7 @@ const nodemailerConfig = {
   secure: true,
   auth: {
     user: "hennadiiborysevych@meta.ua",
-    pass: "^wX$UTDpM7N440",
+    pass: META_KEY,
   },
   tls: {
     rejectUnauthorized: false,
@@ -21,8 +21,6 @@ const sendEmail = async (data) => {
   const email = {
     ...data,
     from: "hennadiiborysevych@meta.ua",
-
-    // to: "taskpro.project@gmail.com",
   };
 
   await transport.sendMail(email);
