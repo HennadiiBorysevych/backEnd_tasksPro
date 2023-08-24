@@ -25,7 +25,7 @@ const forgotPasswordSend = async (req, res) => {
     email,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "5m" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
   const verifyEmail = {
     to: email,
     subject: "Need help with the TaskPro application",
