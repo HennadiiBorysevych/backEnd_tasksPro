@@ -81,7 +81,7 @@ const googleRedirect = async (req, res) => {
   });
 
   return res.redirect(
-    `${BASE_URL_FRONTEND}/frontEnd_tasksPro/welcome/?token=${token}&tokenRefresh=${tokenRefresh}`
+    `${BASE_URL_FRONTEND}/welcome/?token=${token}&tokenRefresh=${tokenRefresh}`
   );
 };
 
