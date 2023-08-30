@@ -6,7 +6,7 @@ const updateSchema = Joi.object({
   name: Joi.string().min(2),
   email: Joi.string().pattern(emailRegexp),
   password: Joi.string().min(8),
-  passwordOld: Joi.string().min(8),
+  newPassword: Joi.string().min(8),
 });
 
 module.exports = { updateSchema };
