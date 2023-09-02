@@ -84,7 +84,7 @@ const updateUser = async (req, res, next) => {
       name: updatedUser.name,
       email: updatedUser.email,
       theme: updatedUser.theme,
-      avatarURL: updatedUser.avatar,
+      avatarURL: updatedUser.avatarURL,
     },
   });
 };
