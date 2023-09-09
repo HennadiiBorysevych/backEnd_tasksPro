@@ -13,8 +13,8 @@ const cardSchema = new Schema(
     },
     priority: {
       type: String,
-      enum: ["without", "low", "medium", "high"],
-      default: "without",
+      enum: ["Without", "Low", "Medium", "High"],
+      default: "Without",
     },
     deadline: {
       type: Date,
