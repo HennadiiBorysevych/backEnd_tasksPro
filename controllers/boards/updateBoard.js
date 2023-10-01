@@ -1,5 +1,6 @@
 const { HttpError } = require("../../helpers");
 const { Board } = require("../../models");
+const { cache } = require("../../cache");
 
 const updateBoard = async (req, res) => {
   const { id } = req.params;
@@ -10,6 +11,8 @@ const updateBoard = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Board not found");
   }
+
+  cache.del(["Get All Boards", `Get board by ID:${id}`]);
 
   res.status(201);
   res.json({
