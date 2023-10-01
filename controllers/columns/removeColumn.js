@@ -1,5 +1,6 @@
 const { Column } = require("../../models");
 const { HttpError } = require("../../helpers");
+const { cache } = require("../../cache");
 
 const removeColumn = async (req, res) => {
   const { id } = req.params;
@@ -7,6 +8,12 @@ const removeColumn = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Column not found");
   }
+
+  cache.del([
+    `Get board by ID:${result.columnOwner}`,
+    `Get column by ID:${id}`,
+  ]);
+
   res.status(200);
   res.json({
     code: 200,
