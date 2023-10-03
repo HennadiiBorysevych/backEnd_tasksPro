@@ -63,7 +63,7 @@ const updateUser = async (req, res, next) => {
           next(HttpError(500, "Error"));
           console.log(err.message);
         } else {
-          updateFields.avatarURL = result.url;
+          updateFields.avatarURL = result.secure_url;
           await fs.unlink(req.file.path);
         }
       }
