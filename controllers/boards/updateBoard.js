@@ -3,6 +3,7 @@ const { Board } = require("../../models");
 const { cache } = require("../../cache");
 
 const updateBoard = async (req, res) => {
+  const { _id: user } = req.user;
   const { id } = req.params;
   const result = await Board.findByIdAndUpdate(id, req.body, {
     new: true,
@@ -12,7 +13,7 @@ const updateBoard = async (req, res) => {
     throw HttpError(404, "Board not found");
   }
 
-  cache.del(["Get All Boards", `Get board by ID:${id}`]);
+  cache.del([`Get All Boards ${user}`, `Get board by ID:${id}`]);
 
   res.status(201);
   res.json({

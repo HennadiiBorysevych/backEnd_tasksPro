@@ -5,7 +5,7 @@ const addBoard = async (req, res) => {
   const { _id: user } = req.user;
   const newBoard = await Board.create({ ...req.body, user });
 
-  cache.del("Get All Boards");
+  cache.del(`Get All Boards ${user}`);
 
   res.status(201);
   res.json({
