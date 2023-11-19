@@ -2,7 +2,9 @@ const { Board } = require("../../models");
 const { cache } = require("../../cache");
 
 const getBoard = async (req, res) => {
-  const cacheData = await cache.get("Get All Boards");
+  const { _id: user } = req.user;
+
+  const cacheData = await cache.get(`Get All Boards ${user}`);
   if (cacheData) {
     res.status(200);
     res.json({
@@ -13,10 +15,9 @@ const getBoard = async (req, res) => {
     return;
   }
 
-  const { _id: user } = req.user;
   const result = await Board.find({ user }, "-createdAt -updatedAt");
 
-  cache.set("Get All Boards", result);
+  cache.set(`Get All Boards ${user}`, result);
 
   res.status(200);
   res.json({
